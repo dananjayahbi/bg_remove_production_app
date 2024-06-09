@@ -8,6 +8,7 @@ const {
     getAllUsers,
     getUserById,
     updateUser,
+    deleteGalleryItem,
     changePassword,
     deleteUser
 } = require("../controllers/userController");
@@ -32,6 +33,9 @@ router.get("/getUserById/:id", getUserById);
 // Update a user
 // router.put("/updateUser/:id", protect, updateUser);
 router.put("/updateUser/:id", updateUser);
+
+// Delete a gallery item by user id and galleryId passed in params
+router.put("/deleteGalleryItem/:id/:galleryId", deleteGalleryItem);
 
 // Change password
 // router.put("/changePassword/:id", protect, changePassword);

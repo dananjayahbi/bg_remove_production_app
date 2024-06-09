@@ -10,6 +10,12 @@ const userModel = new userSchema({
   password: {
     type: String,
   },
+  //gallery object array
+  gallery: [
+    {
+      url: String,
+    },
+  ],  
 });
 
 const User = mongoose.model("User", userModel);

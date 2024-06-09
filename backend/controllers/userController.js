@@ -33,7 +33,7 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const newUser = new User({ email, password: passwordHash });
+    const newUser = new User({ email, password: passwordHash, gallery: []});
 
     const savedUser = await newUser.save();
     res.json(savedUser);
@@ -155,13 +155,15 @@ const getAllUsers = async (req, res) => {
 //Update a user
 const updateUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, gallery } = req.body;
 
     const userFetch = await User.findById(req.params.id);
 
     let updateData = {
       email: email ? email : userFetch.email,
       password: password ? password : userFetch.password,
+      //If gallery is not empty, append the new gallery items to the existing gallery
+      gallery: gallery.length > 0 ? [...userFetch.gallery, ...gallery] : userFetch.gallery,
     };
 
     const update = await User.findByIdAndUpdate(req.params.id, updateData);
@@ -181,6 +183,31 @@ const updateUser = async (req, res) => {
     res.status(401).json({
       errorMessage: "Something went wrong!\n" + error,
       status: false,
+    });
+  }
+};
+
+//Delete gallery item
+const deleteGalleryItem = async (req, res) => {
+  try {
+    const userFetch = await User.findById(req.params.id);
+    if (userFetch) {
+      const gallery = userFetch.gallery;
+      const newGallery = gallery.filter((item) => item._id != req.params.galleryId);
+      userFetch.gallery = newGallery;
+
+      const updatedUser = await userFetch.save();
+      if (updatedUser) {
+        res.json(updatedUser);
+      }
+    } else {
+      res.status(404).json({
+        errorMessage: "User not found",
+      });
+    }
+  } catch (e) {
+    res.status(400).json({
+      errorMessage: "Something went wrong!\n" + e,
     });
   }
 };
@@ -248,6 +275,7 @@ module.exports = {
   getUserById,
   getAllUsers,
   updateUser,
+  deleteGalleryItem,
   changePassword,
   deleteUser,
 };
