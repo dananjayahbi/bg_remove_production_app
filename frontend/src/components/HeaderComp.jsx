@@ -24,6 +24,9 @@ const HeaderComp = () => {
       <Menu.Item key="profile">
         <Link to="/profile">Profile</Link>
       </Menu.Item>
+      <Menu.Item key="gallery">
+        <Link to="/gallery">Gallery</Link>
+      </Menu.Item>
       <Menu.Item key="logout" onClick={handleLogout}>
         Logout
       </Menu.Item>

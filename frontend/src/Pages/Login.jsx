@@ -19,6 +19,7 @@ const Login = () => {
       if (response.status === 200) {
         window.localStorage.setItem("token", response.data.token);
         window.localStorage.setItem("LoggedIn", true);
+        window.localStorage.setItem("userId", response.data.user.id);
         message.success("Login successful!");
         window.location.href = "/home";
       }
