@@ -3,7 +3,11 @@ import { Card, Row, Col, Spin, Empty, Image, Button, Modal } from "antd";
 import axios from "axios";
 import HeaderComp from "../components/HeaderComp";
 import Footer from "../components/Footer";
-import { DownloadOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  DeleteOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { v4 as uuid } from "uuid";
 
 const Gallery = () => {
@@ -81,7 +85,23 @@ const Gallery = () => {
   };
 
   if (loading) {
-    return <Spin size="large" />;
+    return (
+      <Spin
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        indicator={
+          <LoadingOutlined
+            style={{
+              fontSize: 24,
+            }}
+            spin
+          />
+        }
+      />
+    );
   }
 
   return (
@@ -96,10 +116,10 @@ const Gallery = () => {
           alignItems: "center",
         }}
       >
-        {galleryItems.length === 0 && <Empty />}
-        <div style={{ marginBottom: "50px" }}>
+        <div style={{ marginBottom: "50px", marginTop: "50px" }}>
           <h1 style={{ fontFamily: "sans-serif" }}>Your Gallery</h1>
         </div>
+        {galleryItems.length === 0 && <Empty />}
         <div style={{ width: "70%" }}>
           <Row gutter={[16, 16]}>
             {galleryItems.map((item, index) => (

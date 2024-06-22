@@ -3,6 +3,7 @@ import { Layout, Menu, Avatar, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom"; // Import useLocation
 const { Header } = Layout;
+import logo from "../assets/logo.png";
 
 const HeaderComp = () => {
   const location = useLocation(); // Get current location
@@ -55,16 +56,16 @@ const HeaderComp = () => {
             }}
           >
             <img
-              src="https://media.istockphoto.com/id/1345681613/vector/creative-people-logo-vector-illustration-design-editable-resizable-eps-10.jpg?s=612x612&w=0&k=20&c=9XUHICA1ljbxBcLw8ERp0kDDxLNQ8Bp2yR4aUSS6SBs="
+              src={logo}
               alt="Company Logo"
-              style={{ width: "100px", height: "auto" }}
+              style={{ width: "80px", height: "auto", marginTop: "15px" }}
             />
           </div>
         </a>
         <Menu
           theme="light"
           mode="horizontal"
-          defaultSelectedKeys={[currentKey]} // Set defaultSelectedKeys dynamically
+          defaultSelectedKeys={[currentKey]}
           style={{
             flex: 1,
             minWidth: 0,

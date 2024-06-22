@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Upload,
   Button,
-  Layout,
   Typography,
   Image,
   message,
@@ -31,7 +30,9 @@ const Home = () => {
 
   const checkImageStatus = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/bgRemove/status/${id}`);
+      const response = await axios.get(
+        `http://localhost:5000/api/bgRemove/status/${id}`
+      );
       if (response.data.status === "completed") {
         const images = response.data.files.map((file) => ({
           url: `http://localhost:5000/${id}/${file}`,
@@ -62,19 +63,19 @@ const Home = () => {
       message.error("Please select files to upload.");
       return;
     }
-  
+
     const userId = localStorage.getItem("userId");
     if (!userId) {
       message.error("User ID not found in local storage.");
       return;
     }
-  
+
     const formData = new FormData();
     files.forEach((file) => {
       formData.append("images", file);
     });
     formData.append("userId", userId); // Append userId to the form data
-  
+
     setLoading(true);
     try {
       const response = await axios.post(
@@ -89,7 +90,7 @@ const Home = () => {
       message.error("Error uploading images.");
       console.error(error);
     }
-  };  
+  };
 
   const beforeUpload = (file) => {
     setFiles((prevFiles) => [...prevFiles, file]);
@@ -117,13 +118,21 @@ const Home = () => {
       <HeaderComp />
       <div style={{ minHeight: "calc(100vh - 125px)" }}>
         <Row gutter={16} justify="center">
-          <Col span={24}>
+          <Col
+            span={24}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "50px",
+            }}
+          >
             <Card
               title="Upload Images"
               style={{
                 textAlign: "center",
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                 minHeight: "150px",
+                width: "900px",
               }}
               bodyStyle={{ padding: "20px" }}
             >
@@ -142,15 +151,17 @@ const Home = () => {
                   Support for a single or bulk upload.
                 </p>
               </Dragger>
-              <Button
-                type="primary"
-                icon={<CloudUploadOutlined />}
-                onClick={handleUpload}
-                style={{ width: "100%", marginTop: 20 }}
-                disabled={files.length === 0 || loading}
-              >
-                Upload and Remove Backgrounds
-              </Button>
+              <div style={{display: "flex", justifyContent: "center"}} >
+                <Button
+                  type="primary"
+                  icon={<CloudUploadOutlined />}
+                  onClick={handleUpload}
+                  style={{ width: "300px", marginTop: 20 }}
+                  disabled={files.length === 0 || loading}
+                >
+                  Upload and Remove Backgrounds
+                </Button>
+              </div>
             </Card>
           </Col>
         </Row>
@@ -195,8 +206,7 @@ const Home = () => {
                       Download
                     </Button>,
                   ]}
-                >
-                </Card>
+                ></Card>
               </Col>
             ))}
           </Row>
